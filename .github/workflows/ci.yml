@@ -10,14 +10,12 @@ jobs:
   smoke-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Verify Environment Mechanics
-        run: echo "The Github Actions pipeline architecture is functional"
+      - name: Clone Repository Data
+        uses: actions/checkout@v4
 
-      - name: Inspect Runner Infrastructure Hardware
+      - name: Verify Workspace Files
         run: |
-          echo "Current system user:"
-          whoami
-          echo "Avalable memory resources:"
-          free -h
-          echo "Pre-installed Python version:"
-          python3 --version
+          echo "Current working directory path:"
+          pwd
+          echo "Listing all files inside the workspace:"
+          ls -la
