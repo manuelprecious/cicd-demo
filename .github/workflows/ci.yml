@@ -1,0 +1,10 @@
+name: Local to Cloud Pipeline
+
+on: push
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify Environment Mechanics
+        run: "The Github Actions pipeline architecture is functional"
