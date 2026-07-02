@@ -12,3 +12,12 @@ jobs:
     steps:
       - name: Verify Environment Mechanics
         run: echo "The Github Actions pipeline architecture is functional"
+
+      - name: Inspect Runner Infrastructure Hardware
+        run: |
+          echo "Current system user:"
+          whoami
+          echo "Avalable memory resources:"
+          free -h
+          echo "Pre-installed Python version:"
+          python3 --version
