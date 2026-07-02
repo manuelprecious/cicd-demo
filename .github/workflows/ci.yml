@@ -1,6 +1,10 @@
 name: Local to Cloud Pipeline
 
-on: push
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   smoke-test:
