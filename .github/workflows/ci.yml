@@ -9,16 +9,20 @@ on:
 jobs:
   test-suite:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ["20", "22"]
+
     env:
       APP_ENVIRONMENT: staging
     steps:
       - name: Clone Repository Data
         uses: actions/checkout@v4
 
-      - name: Initialize Node.js Environment
+      - name: Initialize Node Runtime (Version ${{ matrix.node-version }})
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: ${{ matrix.node-version }}
 
       - name: Install Project Dependencies
         run: npm ci
@@ -28,8 +32,15 @@ jobs:
         env:
           DEBUG_LOGS: true
 
-      - name: Verify Secure Secret Masking
+      - name: Package Production Distribution Bundle
         run: |
-          echo "The current database environment is: $APP_ENVIRONMENT"
-          echo "Attempting to pring the secret token to the log stream:"
-          echo "Secret token value is: ${{secrets.DATABASE_PASSWORD}}"
+          mkdir -p dist
+          cp index.js package.json dist/
+          echo "Build metadata: Env=${{ env.APP_ENVIRONMENT }}, Node Version=${{ matrix.node-version }}" > dist/build-info.txt
+
+      - name: Preserve Build Artifact Asset
+        uses: actions/upload-artifact@v4
+        with:
+          name: distribution-package-node-${{ matrix.node-version }}
+          path: dist/
+          retention-days: 5
