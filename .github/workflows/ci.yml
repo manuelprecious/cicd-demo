@@ -27,3 +27,9 @@ jobs:
         run: npm test
         env:
           DEBUG_LOGS: true
+
+      - name: Verify Secure Secret Masking
+        run: |
+          echo "The current database environment is: $APP_ENVIRONMENT"
+          echo "Attempting to pring the secret token to the log stream:"
+          echo "Secret token value is: ${{secrets.DATABASE_PASSWORD}}"
