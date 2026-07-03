@@ -1,4 +1,4 @@
-name: Local to Cloud Pipeline
+name: Local To Cloud Pipeline
 
 on:
   push:
@@ -7,15 +7,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  smoke-test:
+  test-suite:
     runs-on: ubuntu-latest
     steps:
       - name: Clone Repository Data
         uses: actions/checkout@v4
 
-      - name: Verify Workspace Files
-        run: |
-          echo "Current working directory path:"
-          pwd
-          echo "Listing all files inside the workspace:"
-          ls -la
+      - name: Initialize Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Project Dependencies
+        run: npm ci
+
+      - name: Execute Automated Tests
+        run: npm test
