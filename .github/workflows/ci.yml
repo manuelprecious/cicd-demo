@@ -9,6 +9,8 @@ on:
 jobs:
   test-suite:
     runs-on: ubuntu-latest
+    env:
+      APP_ENVIRONMENT: staging
     steps:
       - name: Clone Repository Data
         uses: actions/checkout@v4
@@ -23,3 +25,5 @@ jobs:
 
       - name: Execute Automated Tests
         run: npm test
+        env:
+          DEBUG_LOGS: true
